@@ -88,8 +88,8 @@ admin:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  # repo: https://github.com/sternelee/sternelee.github.io.git 
-  repo: https://gh_token@github.com/sternelee/sternelee.github.io.git
+  repo: https://github.com/sternelee/sternelee.github.io.git 
+  # repo: https://gh_token@github.com/sternelee/sternelee.github.io.git
   branch: master
 
 backup:
