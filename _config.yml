@@ -129,7 +129,7 @@ baidu_analytics: 3d7b971cdcecc20a9a4fede5c34e4b52
 #google_analytics: your-analytics-id
 #google_site_verification: V9_Ys0xWOwD0m2gXTYo15k9tyfvl16H4YE5ijFHyo50
 
-swiftype_key: bExB38zoBkxmtz8PsFQ_
+#swiftype_key: bExB38zoBkxmtz8PsFQ_
 
 sitemap:
   path: sitemap.xml
