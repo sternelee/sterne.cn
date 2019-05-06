@@ -2,7 +2,7 @@ clone_depth: 5
 
 environment:
     access_token:
-        secure: # 自己的加密token
+        secure: CaCjCmqUH0QaY7DDnMuAYbDL8BiXvU3fJAOm+aJPr5J3JDIBgYQQpXQDwbFl2st6
 install:
     - ps: Install-Product node 10.15.3
     - node --version
