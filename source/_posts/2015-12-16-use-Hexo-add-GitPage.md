@@ -1,10 +1,10 @@
 title: 搭建Hexo博客并部署到Github
 date: 2015-12-16 16:16:56
 categories: 笔记
-tags: 
-- hexo 
-- github 
-- git
+tags:
+    - hexo
+    - github
+    - git
 ---
 搭建Hexo博客并部署到Github的小细节
 

@@ -19,9 +19,6 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 ## 前端模块
 
-
-### `npm`其他模块
-
 - [cnpm](https://npm.taobao.org/)
 - [node-tinypng](https://www.npmjs.com/package/node-tinypng)
     + usage: `tinypng *.png(or folder)`
@@ -31,13 +28,12 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 - babel-cli
     + usage: `babel example.js -o compiled.js`
 - [phantomjs](http://javascript.ruanyifeng.com/tool/phantomjs.html)
-- [typescript](https://www.tslang.cn/docs/tutorial.html) , [ts-node](https://github.com/TypeStrong/ts-node) 与
-    [typings](https://github.com/typings/typings)
+- [typescript](https://www.tslang.cn/docs/tutorial.html) , [ts-node](https://github.com/TypeStrong/ts-node) 与 [typings](https://github.com/typings/typings)
     + usage: `tsc file.ts`
 - react-native
 - [React UI构建工具 react-storybook](https://getstorybook.io/)
     + usage: `npm i -g getstorybook`
-- pm2
+- [pm2](https://pm2.io/doc/en/runtime/overview/)  node应用进程管理工具
 - [spy-debugger](https://www.npmjs.com/package/spy-debugger)
 - [gulp](https://gulpjs.com/)
 - [create-react-app](https://github.com/facebookincubator/create-react-app)
@@ -59,6 +55,7 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
     + usage: `pushstate-server [directory] [port]`
 - yarn
     + usage: 设置国内镜像  `yarn config set registry https://registry.npm.taobao.org`
+- pnpm
 - [npm-home](https://github.com/sindresorhus/npm-home)
 - [apollo-client](https://github.com/apollographql/apollo-client) 面向UI框架的GraphQL客户端
 - nodemon
@@ -80,6 +77,8 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 - [nrm](https://www.npmjs.com/package/nrm) npm源快速切换
 
 ## 常用`JS`框架
+
+<!--more-->
 
 ### `DOM`操作工具
 
