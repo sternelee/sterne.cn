@@ -19,11 +19,11 @@ Shadow DOM是一组**JavaScript API**，用于将封装的“影子”DOM树附�
 第一步：打开 Chrome 的开发者工具，点击右上角的“Settings”按钮，勾选“Show user agent shadow DOM”。
 第二步：创建包含 `video` 元素的页面（`audio`, `select`, `progress`, `input` 等等 都行)
 
-![图片](imgs/Snipaste_2019-05-29_19-24-32.png)
+![1.png](https://raw.githubusercontent.com/sternelee/assets/master/imgs1.png)
 
 `#shadow-root`称为影子根，可以看到它在video里面，换句话说，`#shadow-root`寄生在`video`上，所以video此时称为影子宿主。可以看到上图有两个`#shadow-root`，这是因为`#shadow-root`可以嵌套，形成节点树，即称为影子树（shadow trees）。影子树对其中的内容进行了封装，有选择性的进行渲染。这就意味着我们可以插入文本、重新安排内容、添加样式等等。
 
-![图片](imgs/3.png)
+![3.png](https://raw.githubusercontent.com/sternelee/assets/master/imgs3.png)
 
 ### Shadow DOM vs DOM vs Light DOM
 
@@ -165,10 +165,11 @@ root.appendChild(con);
 
 ### 基于 Shadow DOM 的前端框架 [omi](https://github.com/Tencent/omi/blob/master/README.CN.md) ——  腾讯出品
 
-比同样开发 TodoApp， Omi 和 React 渲染完的 DOM 结构，Omi 使用 Shadow DOM 隔离样式和语义化结构:
+1. 基于 Shadow Dom 设计,Web Components + JSX + HTM 融合为一个框架 Omi
+2. Shadow DOM 与 Virtual DOM 融合，Omi 既使用了虚拟 DOM，也是使用真实 Shadow DOM，让视图更新更准确更迅速
+3. 局部 CSS 最佳解决方案(Shadow DOM)，社区为局部 CSS 折腾了不少框架和库(使用js或json写样式，如:Radium，jsxstyle，react-style；与webpack绑定使用生成独特的className文件名—类名—hash值，如：CSS Modules，Vue)，还有运行时注入scoped atrr 的方式，都是 hack 技术；Shadow DOM Style 是最完美的方案
 
-![omi](imgs/4.jpeg) ![react](imgs/5.jpeg)
-
+...
 
 ### 参考
 
