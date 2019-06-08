@@ -116,6 +116,12 @@ links:
 #duoshuo_shortname: sternelee
 disqus_shortname: sternelee
 
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
 # feed
 feed:
   type: atom
