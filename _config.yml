@@ -114,7 +114,7 @@ links_title: Links
 links:
 
 #duoshuo_shortname: sternelee
-disqus_shortname: sternelee
+#disqus_shortname: sternelee
 
 search:
   path: search.xml
@@ -131,7 +131,7 @@ feed:
   content:
 
 #百度统计
-baidu_analytics: 3d7b971cdcecc20a9a4fede5c34e4b52
+#baidu_analytics: 3d7b971cdcecc20a9a4fede5c34e4b52
 #google_analytics: your-analytics-id
 #google_site_verification: V9_Ys0xWOwD0m2gXTYo15k9tyfvl16H4YE5ijFHyo50
 
