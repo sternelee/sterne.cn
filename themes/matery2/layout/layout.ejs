@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="<%= config.language %>">
+<%- partial('_partial/head') %>
+
+<body>
+
+<%- partial('_partial/header') %>
+<%- body %>
+<%- partial('_partial/footer') %>
+
+<%- partial('_partial/search') %>
+<%- partial('_partial/back-top') %>
+
+<script src="<%- theme.libs.js.materialize %>"></script>
+<script src="<%- theme.libs.js.masonry %>"></script>
+<script src="<%- theme.libs.js.aos %>"></script>
+<script src="<%- theme.libs.js.scrollProgress %>"></script>
+<script src="<%- theme.libs.js.lightgallery %>"></script>
+<script src="/js/matery.js"></script>
+<script src="/js/segment.min.js"></script>
+<script src="/js/d3-ease.v0.6.js"></script>
+<script src="/js/letters.js"></script>
+<script src="/js/jump.js"></script>
+<script>
+$(document).ready(function(){
+    $(".hide-on-med-and-down span, #artDetail .article-tag .chip").jrumble();
+});
+//选择元素
+var el = document.querySelector('.logo-span');
+//每个选项可以定义为单个也可以定义为数组
+var options = {
+    size: 70,         // 字体大小，决定文字的高度，px
+    weight: 6,         // 粗体，px
+    rounded: false,    // 字母结尾圆角
+    color: ['#fc6423','#fff'],  // 字体颜色
+    duration: 1,       // 每个字母的动画展示时长 (seconds)
+    delay: [0, 0.4],  // 每个字母间的动画延时
+    fade: 2,         // 渐显效果的时长(seconds)
+    easing: d3_ease.easeCubicInOut.ease,   // 缓冲动画效果
+    individualDelays: false     // 默认false，如果设置成false，则动画效果会从左到右过度展示，如果是true，字母动画效果是同步展示
+};
+var myText = new Letters(el, options);
+myText.show();
+</script>
+
+<%- partial('_partial/google-analytics') %>
+<% if (theme.clicklove.enable) { %>
+    <script src="<%- theme.libs.js.clicklove %>"></script>
+<% } %>
+<% if (theme.busuanziStatistics && theme.busuanziStatistics.enable) { %>
+    <script async src="<%- theme.libs.js.busuanzi %>"></script>
+<% } %>
+
+</body>
+</html>
