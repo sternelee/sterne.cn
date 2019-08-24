@@ -1,19 +1,19 @@
 # Hexo Configuration
-## Docs: http://hexo.io/docs/configuration.html
+## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: STERNE (。・`ω´・)喜欢英文吉他的程序猿
+title: STERNE - (。・`ω´・)喜欢英文吉他的程序猿
 subtitle: SterneLee's blog
 description: (。・`ω´・)喜欢英文吉他的程序猿
 author: Sterne Lee
 language: zh-CN
 timezone:
-email: sternelee@qq.com
+email: sternelee@gmail.com
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://sterne.coding.me
+url: http://sternelee.github.io/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -26,8 +26,8 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render: 
-- README.md
+skip_render:
+  - README.md
 
 # Writing
 new_post_name: :year-:month-:day-:title.md # File name of new posts
@@ -36,20 +36,14 @@ titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
-post_asset_folder: true
+post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: false
+  enable: true
   line_number: true
-  auto_detect: true
+  auto_detect: false
   tab_replace:
-
-prism_plugin:
-  mode: 'preprocess'    # realtime/preprocess
-  theme: 'tomorrow'
-  line_number: false    # default false
-  custom_css:
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -78,36 +72,35 @@ per_page: 10
 pagination_dir: page
 
 # Extensions
-## Plugins: http://hexo.io/plugins/
-## Themes: http://hexo.io/themes/
-theme: yilia
-plugins:
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+theme: next
+
+# Admin
+admin:
+  username: sterne
+  password_hash: $2a$10$6nRk59toVdeiBS5qPWfvLusHkfq6NFBUUw0.BHLMF/HZnizx3vtcy
+  secret: lee
+  deployCommand: './hexo-generate.sh'
+  # cors: http://localhost:3000
 
 # Deployment
-## Docs: http://hexo.io/docs/deployment.html
+## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://git.coding.net/sterne/sterne.git
-  branch: hexo
+  repo: https://github.com/sternelee/sternelee.github.io.git
+  # repo: https://gh_token@github.com/sternelee/sternelee.github.io.git
+  branch: master
 
-search:
-  path: search.xml
-  field: post
-
-permalink_pinyin:
-  enable: true
-  separator: '-' # default: '-'
-
-wordCount:
-  enable: true # 将这个值设置为 true 即可.
-  postWordCount: true
-  min2read: true
-  totalCount: true
-
+backup:
+    type: git
+    repository:
+       github: https://github.com/sternelee/sternelee.github.io.git,hexo
 #建站时间
 since: 2015
 #头像
-avatar: https://dn-coding-net-production-static.qbox.me/cf91292b-e6d5-4ca0-b31e-cd085cf0c653.jpg?imageMogr2/auto-orient/format/jpeg/crop/!798x798a0a0
+avatar: https://avatars2.githubusercontent.com/u/6971752?v=3&s=460
+# avatar: https://dn-coding-net-avatar.qbox.me/f6bc0b92-74ff-482f-8ec6-b86c90b71a9f.jpg?imageMogr2/thumbnail/460
 # Social links
 social:
   Github: https://github.com/sternelee
@@ -121,38 +114,28 @@ links_title: Links
 links:
 
 #duoshuo_shortname: sternelee
+#disqus_shortname: sternelee
 
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
+# feed
 feed:
   type: atom
   path: atom.xml
   limit: 20
   hub:
   content:
-  content_limit: 140
-  content_limit_delim: ' '
-  order_by: -date
 
 #百度统计
-baidu_analytics: 3d7b971cdcecc20a9a4fede5c34e4b52
+#baidu_analytics: 3d7b971cdcecc20a9a4fede5c34e4b52
+#google_analytics: your-analytics-id
 #google_site_verification: V9_Ys0xWOwD0m2gXTYo15k9tyfvl16H4YE5ijFHyo50
 
-# swiftype_key: bExB38zoBkxmtz8PsFQ_
+#swiftype_key: bExB38zoBkxmtz8PsFQ_
 
 sitemap:
   path: sitemap.xml
-
-# https://blinkfox.github.io/2018/09/28/qian-duan/hexo-bo-ke-zhu-ti-zhi-hexo-theme-matery-de-jie-shao/
-# 是否在首页显示音乐.
-music:
-  enable: true
-  showTitle: false
-  title: 听听音乐
-  fixed: false # 是否开启吸底模式
-  autoplay: false # 是否自动播放
-  theme: '#42b983'
-  loop: 'all' # 音频循环播放, 可选值: 'all', 'one', 'none'
-  order: 'list' # 音频循环顺序, 可选值: 'list', 'random'
-  preload: 'auto' # 预加载，可选值: 'none', 'metadata', 'auto'
-  volume: 0.7 # 默认音量，请注意播放器会记忆用户设置，用户手动设置音量后默认音量即失效
-  listFolded: false # 列表默认折叠
-  listMaxHeight: # 列表最大高度

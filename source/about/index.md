@@ -1,5 +1,8 @@
+---
 title: 关于
 date: 2015-12-15 14:42:20
+type: "about"
+layout: "about"
 ---
 ### 个人信息
 My Name is Sterne Lee,the computer enthusiasts.
