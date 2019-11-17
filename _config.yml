@@ -80,7 +80,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: matery2
+theme: next
 plugins:
 
 # Admin
