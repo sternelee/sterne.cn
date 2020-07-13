@@ -11,7 +11,7 @@
     "coding": "hexo deploy --config _coding.yml"
   },
   "hexo": {
-    "version": "4.0.0"
+    "version": "3.9.0"
   },
   "dependencies": {
     "hexo": "^4.0.0",
