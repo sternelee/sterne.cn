@@ -15,6 +15,8 @@ tags:
 
 **使用中的Malloc在WebAssembly中分配动态内存**，了解WebAssembly的内存模型在反向功能中将很重要，最初，此堆已用输入数组填充。WebAssembly线性内存对象的大小以页为单位。每页为65536（2 ^ 16）字节。在WebAssembly版本1中，线性内存最多可以有65536页，总共2 ^ 32字节（4吉字节）。除了该页数限制，当前所有内存指令都将i32类型用作内存索引。
 
+<!--more-->
+
 ### Web装配体内存
 
 **`WebAssembly.Memory`**， WebAssembly.Memory对象是可调整大小的ArrayBuffer或SharedArrayBuffer，用于保存由A访问的内存的原始字节。JavaScript或WebAssembly代码创建的内存将可以从JavaScript和WebAssembly访问并可变。语法new WebAssembly.Memory（memoryDe​​scriptor）; 参数memoryDe​​scriptor一个对象，可以包含以下成员：initial WebAssembly内存的初始大小，以WebAssembly页面为单位。maximum可选允许WebAssembly内存增加到的最大大小，以WebAssembly页面为单位。如果存在，则最大值参数用作提示
