@@ -8,13 +8,14 @@
     "delete": "pm2 delete hexo",
     "status": "pm2 status hexo",
     "restart": "pm2 restart hexo",
-    "coding": "hexo deploy --config _coding.yml"
+    "coding": "hexo deploy --config _coding.yml",
+    "gitee": "hexo deploy --config _gitee.yml"
   },
   "hexo": {
-    "version": "4.0.0"
+    "version": "4.2.1"
   },
   "dependencies": {
-    "hexo": "^4.0.0",
+    "hexo": "^4.2.1",
     "hexo-deployer-git": "^2.1.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
@@ -25,6 +26,5 @@
     "hexo-renderer-marked": "^2.0.0",
     "hexo-renderer-stylus": "^1.1.0",
     "hexo-server": "^1.0.0"
-  },
-  "devDependencies": {}
+  }
 }
