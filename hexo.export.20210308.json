@@ -1,6 +1,6 @@
 {
 	"meta": {
-		"exported_on": 1615173761584,
+		"exported_on": 1615177676012,
 		"version": "1.19.0"
 	},
 	"data": {
@@ -1206,22 +1206,6 @@
 				"published_by": ""
 			},
 			{
-				"id": "ckm00r4to000120u3dazigqsh",
-				"title": "",
-				"html": "sterne.me",
-				"featured": 0,
-				"page": 1,
-				"status": "published",
-				"visibility": "public",
-				"author_id": "",
-				"created_at": "2020-02-16T09:49:51+08:00",
-				"created_by": "",
-				"updated_at": "2019-04-20T18:16:27+08:00",
-				"updated_by": "",
-				"published_at": "2020-02-16T09:49:51+08:00",
-				"published_by": ""
-			},
-			{
 				"id": "ckm00r5wo006n20u39ru95yg7",
 				"title": "web-worker",
 				"html": "\n# [web worker 实践](https://gitee.com/sternelee/example-worker)\n\n#### 介绍\n\n通过使用Web Workers，Web应用程序可以在独立于主线程的后台线程中，运行一个脚本操作。这样做的好处是可以在独立线程中执行费时的处理任务，从而允许主线程（通常是UI线程）不会因此被阻塞/放慢，从页实现多线程。\n\n主线程 => 创建 `worker` (`new Worker`(同源`js`链接)) -> 发送通知`postMessage` -> 接收通知`onmessage` -> 关闭`close`\n\n`worker`线程 => 程序逻辑 -> 接收命令`onmessage` -> 处理数据 -> 发送通知`postMessage` -> 关闭`terminate`\n\n#### 不可使用点\n\n1. 与主线程不在同一个上下文\n2. 不可以操作 DOM，一切与 DOM 操作相关的函数、类都不能使用\n3. `window` 对象的某些属性和方法, 重点注意 `XMLHttpRequest` 只会返回 `null`\n   > [Web Workers可以使用的函数和类](https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API/Functions_and_classes_available_to_workers)\n\n\n#### `Blob` 使用\n> 学习参考：[动态创建 Web Worker 实践指南](https://zhuanlan.zhihu.com/p/59981684)\n\n`Web Worker` 常用构造函数来加载 `js` 链接文件，而我们知道：\n1. `Blob`对象是一个不可变、原始数据的类文件对象，但不局限于 JavaScript 原生格式的数据，常被用来存储体量很大的二进制编码格式的数据，因此我们可以存入 `worker.js` 的逻辑代码。\n2. `URL.createObjectURL` 则可以创建链接。\n\n<!--more-->\n\n因此我们有了这样的例子：\n\n```javascript\nconst response = \"onmessage=function(e){postMessage('Worker: '+e.data);}\";\nconst blob = new Blob(\n  [response],\n  {type: \"application/javascript\"}\n);\nconst worker = new Worker(URL.createObjectURL(blob));\nworker.onmessage = (e) => {\n  console.log(\"Response: \" + e.data);\n};\n\nworker.postMessage(\"Test\");\n```\n\n\n#### `Promise` 实现\n> 学习参考: [使用 Web Worker 实现简单的非阻塞异步](https://segmentfault.com/a/1190000012563475)\n\n`setTimeout` 和 `Promise` 是阻塞异步的， 当然也包括 `await` 的方式，这要求主线程等待。\n在 `web worker` 中， `postMessage` 和 `onmessage` 是可以一一对应的，我们可以用一个唯一ID来匹配。\n\n```javascript\n\nconst flagMapping = {};\n\ndispatch(...args) {\n  const flag = new Date().getTime();\n  return new Promise((resolve, reject) => {\n    flagMapping[flag] = { resolve, reject };\n    this.worker.postMessage({flag, args});\n  });\n}\n\n// ... worker 内处理数据逻辑\n\n\n// 监听响应事件\nonmessageCallbback = (e) => {\n  const { falg, data } = e.data;\n  const { resolve, reject } = this.flagMapping[flag];\n  resolve(data);\n}\n\n```\n\n\n#### 动态创建 `web worker`\n\n通过以上的认识，我们可以创建一个类，构建 `postMessage` 和 `onmessage` 的接口，在初始化时传入 `worker.js` 的逻辑代码。\n\n##### 方式一： 传入字符串\n\n```javascript\nconst util = `\n{\n  add: function (num) {\n    return num + num\n  },\n  say: functin (name) {\n    return \"我的名字叫\" + name\n  }\n}\n\n`\n```\n\n##### 方式二： 传入函数\n\n原因： `Function.prototype.toString()`: 返回一个表示当前函数源代码的字符串\n\n```javascript\nconst util = (method, ...args) => {\n  if (method === 'add') {\n    return args[0] + args[1]\n  }\n  if (method === 'say') {\n    return '我的名字叫' + args[0]\n  }\n}\n```\n\n#### 难点：如何将 `js` 代码以字符串传入 `web worker`\n\n##### 方式一： `worker-loader` 以内联方式打包:\n\n```javascript\n{\n  test: /\\.worker\\.js$/,\n    use: {\n      loader: 'worker-loader',\n      options: { inline: true }\n    }\n}\n```\n\n##### 方式二： `webpack` 以字符串方式加载js文件:\n\n```javascript\nimport file from '!raw-loader!file.js'\n```\n\n#### 方式三：`nodejs` 使用 `fs` 在读取编译后文件以字符串输出\n\n\n#### 内联`Blob` 和 `Promise` 的不足\n\n1. `Promise` 只能响应处理对应的单条信息，持续响应还是需要 `onmessage` 原生方式 或 `Proxy`代理等方式实现\n2. 内联`Blob`增加了项目初始大小\n\n\n##### 扩展阅读：\n\n1. [石墨表格之 Web Worker 应用实战](https://juejin.im/entry/59b89c88f265da0664641382)\n2. [webpack使用](https://www.cnblogs.com/tugenhua0707/p/11253937.html)\n\n### 最佳实践： 谷歌出品的 [comlink](https://github.com/GoogleChromeLabs/comlink)\n\n使用 `Promise` 和 `Proxy` 实现\n\n实践demo: [gcid.ts](https://gitee.com/sternelee/example-worker/blob/master/gcid.ts) 和 [gcid.worker.ts](https://gitee.com/sternelee/example-worker/blob/master/gcid.worker.ts)\n\n注意：`proxy` 要与对应的方法传回调方法，不要传对象\n\n### 扩展阅读： web worker 加载 webWebAssembly\n\n1. [webassembly-web-workers](https://dzone.com/articles/webassembly-web-workers)\n2. [Using WebAssembly with Web Workers](https://www.sitepen.com/blog/using-webassembly-with-web-workers/)",
@@ -1267,6 +1251,22 @@
 				"updated_at": "2021-03-08T11:20:55+08:00",
 				"updated_by": "",
 				"published_at": "2021-01-12T14:03:31+08:00",
+				"published_by": ""
+			},
+			{
+				"id": "ckm0332vx0000w0u38jwicsqp",
+				"title": "vite的魔法—快",
+				"html": "\n### 简介\n\nvite —— 一个由 vue 作者尤雨溪开发的 web 开发工具，他基于浏览器原生 ES imports 的开发服务器。利用浏览器去解析 imports，在服务器端按需编译返回，完全跳过了打包这个概念，服务器随起随用。它具有以下特点：\n\n1. 快速的冷启动\n2. 即时的模块热更新\n3. 真正的按需编译\n\n### 原理\n\n在过去的 Webpack、Rollup 等构建工具的时代，我们所写的代码一般都是基于 ES Module 规范，在文件之间通过 import 和 export 形成一个很大的依赖图。\n\n这些构建工具在本地开发调试的时候，也都会提前把你的模块先打包成浏览器可读取的 js bundle，虽然有诸如路由懒加载等优化手段，但懒加载并不代表懒构建，Webpack 还是需要把你的异步路由用到的模块提前构建好。\n\n当你的项目越来越大的时候，启动也难免变的越来越慢，甚至可能达到分钟级别。而 HMR 热更新也会达到好几秒的耗时。\n\nVite 则别出心裁的利用了浏览器的[原生 ES Module 支持](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Modules)，直接在 html 文件里写诸如这样的代码：\n\n```html\n// index.html\n<div id=\"app\"></div>\n<script type=\"module\">\n  import { createApp } from 'vue'\n  import Main from './Main.vue'\n\n  createApp(Main).mount('#app')\n</script>\n```\n\nVite 会在本地帮你启动一个服务器，当浏览器读取到这个 html 文件之后，会在执行到 import 的时候才去向服务端发送 `Main.vue` 模块的请求，Vite 此时在利用内部的一系列黑魔法，包括 `Vue` 的 `template` 解析，代码的编译等等，解析成浏览器可以执行的 js 文件返回到浏览器端。\n\n这就保证了只有在真正使用到这个模块的时候，浏览器才会请求并且解析这个模块，最大程度的做到了按需加载。\n\n具体参考：[浅谈 Vite 2.0 原理，依赖预编译，插件机制是如何兼容 Rollup 的？](https://zhuanlan.zhihu.com/p/352403391?utm_oi=44058902790144)\n\n基于浏览器 `ES module` 来开发 web 应用还有snowpack。不同的是， `vite` 收集和处理模块依赖采用了 `esbuild`——使用 Go 编写，并且比以 JavaScript 编写的打包器预构建依赖快 10-100 倍。\n\n### 易上手的插件\n\nVite 从 preact 的 WMR 中得到了启发，把插件机制做成兼容 Rollup 的格式。\n目前和 vite 兼容或者内置的插件，可以查看[vite-rollup-plugins](https://vite-rollup-plugins.patak.dev/)。\n\n#### `@rollup/plugin-alias`\n\n在 `vite`，仍至下一版本的`vue-cli`，尤大都会建议在引入文件的同时要写下文件后缀，不带文件后缀下 `vite`会报错找不到模块。\n\n使用 `@rollup/plugin-alias` 后：\n\n```javascript\nimport { defineConfig } from 'vite'\nimport vue from '@vitejs/plugin-vue'\nimport alias from '@rollup/plugin-alias';\n\n// https://vitejs.dev/config/\nexport default defineConfig({\n  plugins: [\n    alias({\n      entries: [\n        { find: /@utils\\/(.*)/, replacement: './utils/$1.js'},\n        { find: /@components\\/(.*)/, replacement: './components/$1.vue'}\n      ]\n    }),\n    vue()\n  ]\n})\n```\n\n#### [`nuxt-vite`](https://github.com/nuxt/vite)\n\n针对 `Nuxt` 项目的打包插件\n",
+				"featured": 0,
+				"page": 0,
+				"status": "published",
+				"visibility": "public",
+				"author_id": "",
+				"created_at": "2021-03-08T11:29:35+08:00",
+				"created_by": "",
+				"updated_at": "2021-03-08T12:27:30+08:00",
+				"updated_by": "",
+				"published_at": "2021-03-08T11:29:35+08:00",
 				"published_by": ""
 			}
 		],
@@ -1519,6 +1519,12 @@
 				"id": "ckm00r5yu00a220u3d1d0coxz",
 				"name": "webassembly",
 				"slug": "webassembly",
+				"visibility": "public"
+			},
+			{
+				"id": "ckm0332w30001w0u3d2xd8znb",
+				"name": "前端打开",
+				"slug": "qian-duan-da-kai",
 				"visibility": "public"
 			}
 		],
@@ -2306,6 +2312,18 @@
 			{
 				"post_id": "ckm00r5wt006r20u35fm10m2r",
 				"tag_id": "ckm00r5yu00a220u3d1d0coxz"
+			},
+			{
+				"post_id": "ckm0332vx0000w0u38jwicsqp",
+				"tag_id": "ckm00r5sb004y20u3frpu6o62"
+			},
+			{
+				"post_id": "ckm0332vx0000w0u38jwicsqp",
+				"tag_id": "ckm00r5y4009220u3e756abl3"
+			},
+			{
+				"post_id": "ckm0332vx0000w0u38jwicsqp",
+				"tag_id": "ckm0332w30001w0u3d2xd8znb"
 			}
 		]
 	}
